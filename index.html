@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Remote device control</title>
+        <link rel="icon" type="image/png" sizes="16x16" href="base_files/favicon.ico">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet">
+        <style type="text/css">
+            body {
+             font-family: Roboto;
+            }
+        </style>
+        <link href="css/styleMain.css" rel="stylesheet" type="text/css">
+        <script src="js/urlQueryParams.js" type="text/javascript"></script>
+        <script src="js/MDactions.js" type="text/javascript"></script>
+        <script src="js/getCookies.js" type="text/javascript"></script>
+        <script src="js/onChangeListeners.js" type="text/javascript"></script>
+        <script src="js/other.js" type="text/javascript"></script>
+    </head>
+    <body onoffline="showToast('test', 2500)">
+        <div id="toast" class="toast-container"></div>
+        <div class="global">
+            <div class="category" id="device-identification">
+                <h3>Device connection &amp; authentication</h3>
+                <input type="text" id="web-id" placeholder="Webhook ID" title="The device's Webhook ID" size="32px" style="font-size: 11px;">
+                <br><br>
+                <input type="text" id="device-code" placeholder="Access code" title="The device's access code" size="7px">
+                <br><br>
+                <button onclick="ping()" id="ping-device">Ping device</button>
+            </div>
+            <br><br><br>
+            <div class="category" id="essentials">
+                <h3>Essentials</h3>
+                <button onclick="unlock()" id="unlock-device">Unlock device</button>
+                <br><br>
+                <button onclick="home()" id="home-button">Home</button>
+            </div>
+            <br><br><br>
+            <div class="category" id="clicks">
+                <h3>Clicks</h3>
+                <label for="normal-long-click-type">Normal/long click</label>
+                <select name="Normal/Long Click Type" id="normal-long-click-type">
+                    <option value="Click">Normal click</option>
+                    <option value="LongClick">Long click</option>
+                </select>
+                <br>
+                <label for="click-type">Click on coordinates/text</label>
+                <select name="Click Type" id="click-type">
+                    <option value="undefined">Please select an option..</option>
+                    <option value="X-Y">X/Y</option>
+                    <option value="text">Text</option>
+                    <option value="View ID">View ID</option>
+                </select>
+                <br>
+                <div class="click-coordinates" id="click-coordinates" style="display: none;">
+                    <input type="number" id="click-coordinates-X" placeholder="X coordinates" min="0">
+                    <input type="number" id="click-coordinates-Y" placeholder="Y coordinates" min="0" >
+                </div>
+                <div class="click-text-options" id="click-text-options" style="display: none;">
+                    <input type="text" id="text-to-click" placeholder="Text to click on">
+                    <br>
+                    <select name="Click text that contains or matches" id="click-text-contains/matches">
+                        <option value="contains">Contains</option>
+                        <option value="matches">Matches</option>
+                    </select>
+                </div>
+                <div class="click-view-id-options" id="click-view-id-options" style="display: none;">
+                    <input type="text" id="view-id-to-click" placeholder="View Id to click on">
+                    <br>
+                    <select name="Click View ID that contains or matches" id="clickViewIdContains/matches">
+                        <option value="contains">Contains</option>
+                        <option value="matches">Matches</option>
+                    </select>
+                </div>
+                <br>
+                <button onclick="executeClick()" id="click-execute" disabled>Execute</button>
+            </div>
+            <br><br><br>
+            <div class="category" id="misc">
+                <h3>Misc.</h3>
+                <button onclick="keepAwake('true')" id="keep-awake-on" style="font-size: 12px; width: fit-content;">Keep Device Awake (screen mirroring)</button>
+                <button onclick="keepAwake('false')" id="keep-awake-off" style="font-size: 16px; width: fit-content; display: none;">Disable Keep Device Awake</button>
+                <br><br>
+                <label for="app-to-launch-list">App to launch</label>
+                <select name="App to launch" id="app-to-launch-list">
+                    <option value="">Choose app..</option>
+                    <option value="MacroDroid">MacroDroid</option>
+                    <option value="WhatsApp">WhatsApp</option>
+                    <option value="Settings">Settings</option>
+                    <option value="ReVanced Extended">ReVanced</option>
+                    <option value="Chrome">Chrome</option>
+                    <option value="Custom">Custom</option>
+                </select>
+                <input type="text" id="app-to-launch-custom" placeholder="Custom app" style="display: none;">
+                <br><br>
+                <button onclick="launchApp()" id="launch-app-button" style="width: 90%;">Launch App</button>
+                <br><br>
+                <textarea type="text" id="text-to-send" class="autoscale-input" placeholder="Text to send to device" style="min-height: 50px; font-size: 10px; min-width: 80%;"></textarea>
+                <br>
+                <label for="overwrite-existing-text">Overwrite existing text in field</label>
+                <input type="checkbox" id="overwrite-existing-text">
+                <br>
+                <button onclick="sendText()" id="send-text-button">Send text</button>
+                <br><br>
+                <button onclick="sendSingleAction('GetScreenContents')" id="get-screen-contents-button">Get screen contents</button>
+                <br><br>
+                <input type="text" id="custom-action" onchange="sendCustomAction()" placeholder="Send custom action">
+            </div>
+            <br><br><br>
+            <div class="category" id="action-results-div">
+                <h3>Results</h3>
+                <textarea id="action-results" style="height: 83%;" placeholder="Waiting for first result..." readonly></textarea>
+            </div>
+        </div>
+        <div id="jsDataTransfer" class="jsDataTransfer" style="display: none;"></div>
+    </body>
+</html>
