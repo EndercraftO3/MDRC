@@ -91,7 +91,7 @@ window.addEventListener("DOMContentLoaded", async function() { // needed for pag
   var showingToast = false;
   var toastContainer = elid('toast');
 
-  const defaultSvgPathsFetch = await fetch("/js/json/defaultSvgPaths.json") // I took some svg and put it there (connectionOk is long because I had to resize it)
+  const defaultSvgPathsFetch = await fetch("./js/json/defaultSvgPaths.json") // I took some svg and put it there (connectionOk is long because I had to resize it)
   const defaultSvgPaths = await defaultSvgPathsFetch.json();
 
   function delay(ms) {
